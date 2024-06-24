@@ -101,7 +101,8 @@ function App(){
     {resultado && (<div>
       {resultado}
     </div>)}
-    {mostrarHisto &&}
+    
+
   </div>)
   }
   
