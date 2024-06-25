@@ -1,109 +1,136 @@
-import './App.css'
-import { useState } from "react"
+import React, { useState } from 'react';
+import './App.css';
 
-function App(){
-
-  const [primeiroNumero,setPrimeiroNumero] = useState('')
-  const [operador,setOperador] = useState('')
-  const [segundoNumero,setSegundoNumero] = useState('')
-  const [resultado,setResultado] = useState('')
-  const [historico,setHistorico] = useState([])
-  const [mostrarHisto,setMostrarHisto] = useState(false)
-
+function App() {
+  const [primeiroNumero, setPrimeiroNumero] = useState('');
+  const [operador, setOperador] = useState('');
+  const [segundoNumero, setSegundoNumero] = useState('');
+  const [resultado, setResultado] = useState('');
+  const [historico, setHistorico] = useState([]);
 
   const VerificarOperadores = (operador) => {
-    primeiroNumero !== '' ?
-    setOperador(operador)
-    : 
-    window.alert('Por Favor, Digite um valor primeiro.')
-
-  }
+    primeiroNumero !== ''
+      ? setOperador(operador)
+      : window.alert('Por Favor, Digite um valor primeiro.');
+  };
 
   const VerificarNumeros = (num) => {
-    operador === '' ?
-    setPrimeiroNumero(primeiroNumero + num)
-    :
-    setSegundoNumero(segundoNumero + num)
-    
-  }
+    operador === ''
+      ? setPrimeiroNumero(primeiroNumero + num)
+      : setSegundoNumero(segundoNumero + num);
+  };
 
-  const Historico = (num1,num2,resultadoCalculado) => {
-    setHistorico([...num1,num2,resultadoCalculado])
-  }
-  
+  const Historico = (num1, num2, resultadoCalculado, operador) => {
+    const HistoricoFinal = [num1, operador, num2, '=', resultadoCalculado];
+    setHistorico([...historico, <div className='operadores'>{HistoricoFinal}</div>]);
+  };
+
   const CalcularResultado = () => {
     if (segundoNumero === '') {
-      window.alert('Faltou o Operador/Segundo')
-      return
+      window.alert('Faltou o Operador/Segundo');
+      return;
     }
 
-    let num1 = parseFloat(primeiroNumero)
-    let num2 = parseFloat(segundoNumero)
-    let resultadoCalculado = 0
+    let num1 = parseFloat(primeiroNumero);
+    let num2 = parseFloat(segundoNumero);
+    let resultadoCalculado = 0;
     switch (operador) {
       case '+':
-        resultadoCalculado = num1 + num2
+        resultadoCalculado = num1 + num2;
         break;
       case '-':
-        resultadoCalculado = num1 - num2
-        break
+        resultadoCalculado = num1 - num2;
+        break;
       case 'x':
-        resultadoCalculado = num1 * num2
-        break
+        resultadoCalculado = num1 * num2;
+        break;
       case '%':
-        resultadoCalculado = num1 / num2
-        break
+        resultadoCalculado = num1 / num2;
+        break;
       default:
         break;
     }
-    setResultado(resultadoCalculado)
-    setPrimeiroNumero(resultadoCalculado)
-    setOperador('')
-    setSegundoNumero('')
-
-    Historico(num1,num2,resultadoCalculado)
-  }
-
-
+    Historico(primeiroNumero, segundoNumero, resultadoCalculado, operador);
+    setResultado(resultadoCalculado);
+    setPrimeiroNumero(resultadoCalculado.toString());
+    setOperador('');
+    setSegundoNumero('');
+  };
 
   const Apagar = () => {
-    setResultado('')
-    setPrimeiroNumero('')
-    setSegundoNumero('')
-    setOperador('')
-  }
+    setResultado('');
+    setPrimeiroNumero('');
+    setSegundoNumero('');
+    setOperador('');
+  };
 
+  return (
+    <div className='display'>
+      <div className='visor'>
+      {primeiroNumero}
+      {operador}
+      {segundoNumero}
+        
+      </div>
 
-  return(
-    <div>
-    <button onClick={() => VerificarNumeros(1)}>1</button>
-    <button onClick={() => VerificarNumeros(2)}>2</button>
-    <button onClick={() => VerificarNumeros(3)}>3</button>
-    <button onClick={() => VerificarNumeros(4)}>4</button>
-    <button onClick={() => VerificarNumeros(5)}>5</button>
-    <button onClick={() => VerificarNumeros(6)}>6</button>
-    <button onClick={() => VerificarNumeros(7)}>7</button>
-    <button onClick={() => VerificarNumeros(8)}>8</button>
-    <button onClick={() => VerificarNumeros(9)}>9</button>
-    <button onClick={() => VerificarNumeros(0)}>0</button>
-    <button onClick={() => VerificarOperadores('%')}>%</button>
-    <button onClick={() => VerificarOperadores('x')}>x</button>
-    <button onClick={() => VerificarOperadores('-')}>-</button>
-    <button onClick={() => VerificarOperadores('+')}>+</button>
-    <button onClick={() => CalcularResultado('=')}>=</button>
-    <button onClick={() => Apagar()}>C</button>
-    <button onClick={setMostrarHisto(true)}>Historico</button>
-    
-    <p>{primeiroNumero}</p>
-    <p>{operador}</p>
-    <p>{segundoNumero}</p>
+      <button className='numero' onClick={() => VerificarNumeros(1)}>
+        <h1>1</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(2)}>
+        <h1>2</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(3)}>
+        <h1>3</h1>
+      </button>
+      <button className='operador' onClick={() => VerificarOperadores('%')}>
+        <h1>%</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(4)}>
+        <h1>4</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(5)}>
+        <h1>5</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(6)}>
+        <h1>6</h1>
+      </button>
+      <button className='operador' onClick={() => VerificarOperadores('x')}>
+        <h1>x</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(7)}>
+        <h1>7</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(8)}>
+        <h1>8</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(9)}>
+        <h1>9</h1>
+      </button>
+      <button className='operador' onClick={() => VerificarOperadores('-')}>
+        <h1>-</h1>
+      </button>
+      <button className='numero' onClick={() => VerificarNumeros(0)}>
+        <h1>0</h1>
+      </button>
+      <button className='limpar' onClick={() => Apagar()}>
+        C
+      </button>
+      <button className='igual' onClick={() => CalcularResultado()}>
+        <h1>=</h1>
+      </button>
+      <button className='operador' onClick={() => VerificarOperadores('+')}>
+        <h1>+</h1>
+      </button>
 
-    {resultado && (<div>
-      {resultado}
-    </div>)}
-    
+      <div className='historico'>
+        {historico.map((hist, index) => (
+          <div key={index} className='operadores'>
+            {hist}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-  </div>)
-  }
-  
-export default App
+export default App;
