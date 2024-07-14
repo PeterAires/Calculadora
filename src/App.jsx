@@ -7,6 +7,7 @@ function App() {
   const [segundoNumero, setSegundoNumero] = useState('');
   const [resultado, setResultado] = useState('');
   const [historico, setHistorico] = useState([]);
+  const [mostrarHistorico, setMostrarHistorico] = useState(false)
 
   const VerificarOperadores = (operador) => {
     primeiroNumero !== ''
@@ -100,7 +101,7 @@ function App() {
       <button className='numero' onClick={() => VerificarNumeros(7)}>
         <h1>7</h1>
       </button>
-      <button className='numero' onClick={() => VerificarNumeros(8)}>
+      <button className='numero' onClick={() => VerificarNumeros(8)}>   
         <h1>8</h1>
       </button>
       <button className='numero' onClick={() => VerificarNumeros(9)}>
@@ -121,14 +122,22 @@ function App() {
       <button className='operador' onClick={() => VerificarOperadores('+')}>
         <h1>+</h1>
       </button>
+      <button onClick={() => setMostrarHistorico(true)}>
+        History
+      </button>
 
-      <div className='historico'>
-        {historico.map((hist, index) => (
-          <div key={index} className='operadores'>
-            {hist}
-          </div>
+      
+        {mostrarHistorico && (
+          <div className='historico'>
+            <button onClick={() => setMostrarHistorico(false)}>X</button>
+              {historico.map((hist, index) => (
+            <div key={index} className='operadores'>
+              {hist}
+            </div>
         ))}
-      </div>
+          </div>
+        )}
+    
     </div>
   );
 }
